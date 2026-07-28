@@ -11,6 +11,6 @@ echo "[$(date '+%H:%M:%S')] FIRED arg='$1' win=$(tmux display-message -p '#{wind
 # honour pane-number-index
 pane_id=$(tmux list-panes -F '#{pane_index} #{pane_id}' | awk -v n="$1" '$1==n{print $2}')
 echo "    mapped='$pane_id' panes=[$(tmux list-panes -F '#{pane_index}=#{pane_id}' | tr '\n' ' ')] selected=[$(get_win_option "$syncer_selected_option")]" >> /tmp/syncer_debug.log
-[ -n "$pane_id" ] && toggle_pane "$pane_id" # unknown number -> no-op, stay in mode
+[ -n "$pane_id" ] && toggle_pane "$pane_id" && tmux select-pane -t "$pane_id" # unknown number -> no-op, stay in mode
 
 rearm_syncer
