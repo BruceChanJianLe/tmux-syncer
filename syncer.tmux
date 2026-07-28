@@ -19,3 +19,13 @@ tmux bind-key -T syncer q      run-shell "$CURRENT_DIR/scripts/cancel.sh"
 for n in 0 1 2 3 4 5 6 7 8 9; do
   tmux bind-key -T syncer "$n" run-shell "$CURRENT_DIR/scripts/toggle_index.sh $n"
 done
+
+# Move focus
+tmux bind-key -T syncer h run-shell "$CURRENT_DIR/scripts/move.sh L"
+tmux bind-key -T syncer j run-shell "$CURRENT_DIR/scripts/move.sh D"
+tmux bind-key -T syncer k run-shell "$CURRENT_DIR/scripts/move.sh U"
+tmux bind-key -T syncer l run-shell "$CURRENT_DIR/scripts/move.sh R"
+tmux bind-key -T syncer Left run-shell "$CURRENT_DIR/scripts/move.sh L"
+tmux bind-key -T syncer Down run-shell "$CURRENT_DIR/scripts/move.sh D"
+tmux bind-key -T syncer Up run-shell "$CURRENT_DIR/scripts/move.sh U"
+tmux bind-key -T syncer Right run-shell "$CURRENT_DIR/scripts/move.sh R"
