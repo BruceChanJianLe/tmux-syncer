@@ -19,7 +19,7 @@ set_tmux_option() {
 # Get window state
 get_win_option() {
   local option="$1" default_value="$2" v
-  v=$(tmux show-option -wqv "option")
+  v=$(tmux show-option -wqv "$option")
   if [ -z "$v" ]; then
     echo "$default_value"
   else
@@ -39,8 +39,8 @@ unset_win_option() {
 
 # Show pane number
 show_panes() {
-  # -b to block
-  # -N stops from swallowing keystroke
+  # -b non blocking
+  # -N passive (stops from swallowing keystroke)
   # -d 0 keeps until we dismiss
   tmux display-panes -b -N -d 0 2> /dev/null
 }
@@ -57,7 +57,52 @@ rearm_syncer() {
   tmux switch-client -T syncer
 }
 
-# Revert selected
+# Revert selected (clear the selected styles as well)
 revert_selection() {
+  local id
+  for id in $(tmux list-panes -F '#{pane_id}'); do
+    tmux set-option -pu -t "$id" window-style 2> /dev/null
+  done
+  clear_panes
   unset_win_option "$syncer_selected_option"
+}
+
+# space delimited id-set utils
+
+list_contains() {
+  case " $1 " in
+    *" $2 "*)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+add_id()    { echo " $1 $2 " | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//'; }
+remove_id() { echo " $1 " | sed "s/ $2 / /g" | sed 's/^ *//;s/ *$//'; }
+
+# add_id() {
+#   echo " $1 $2 " | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//'
+# }
+
+# remove_id() {
+#   echo " $1 " | sed "s/ $2 / /g" | sed 's@^ *//;s@ *$//'
+# }
+
+# add or remove pane
+toggle_pane() {
+  local pane_id="$1" sel dim
+  sel=$(get_win_option "$syncer_selected_option")
+  dim=$(get_tmux_option "$syncer_selected_style_option" "$syncer_selected_style_default")
+
+  if list_contains "$sel" "$pane_id"; then
+    sel=$(remove_id "$sel" "$pane_id")
+    tmux set-option -pu -t "$pane_id" window-style 2> /dev/null
+  else
+    sel=$(add_id "$sel" "$pane_id")
+    tmux set-option -p -t "$pane_id" window-style "$dim"
+  fi
+
+  set_win_option "$syncer_selected_option" "$sel"
 }

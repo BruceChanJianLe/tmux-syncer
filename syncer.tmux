@@ -14,3 +14,8 @@ tmux bind-key "$sync_key" run-shell "$CURRENT_DIR/scripts/start.sh"
 # Exit
 tmux bind-key -T syncer Escape run-shell "$CURRENT_DIR/scripts/cancel.sh"
 tmux bind-key -T syncer q      run-shell "$CURRENT_DIR/scripts/cancel.sh"
+
+# Hotkeys
+for n in 0 1 2 3 4 5 6 7 8 9; do
+  tmux bind-key -T syncer "$n" run-shell "$CURRENT_DIR/scripts/toggle_index.sh $n"
+done
