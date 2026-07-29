@@ -6,12 +6,18 @@ CURRENT_DIR="$( cd  "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "$CURRENT_DIR/scripts/helpers.sh"
 source "$CURRENT_DIR/scripts/variables.sh"
 
-sync_key=$(get_tmux_option "$syncer_sync_key_option" "$syncer_sync_key_default")
+sync_key=$(get_tmux_option   "$syncer_sync_key_option"   "$syncer_sync_key_default")
+unsync_key=$(get_tmux_option "$syncer_unsync_key_option" "$syncer_unsync_key_default")
 
+# Enter selection mode
 tmux unbind-key "$sync_key"
 tmux bind-key "$sync_key" run-shell "$CURRENT_DIR/scripts/start.sh"
 
-# Exit
+# Unsync
+tmux unbind-key "$unsync_key"
+tmux bind-key "$unsync_key" run-shell "$CURRENT_DIR/scripts/unsync.sh"
+
+# Exit selection mode
 tmux bind-key -T syncer Escape run-shell "$CURRENT_DIR/scripts/cancel.sh"
 tmux bind-key -T syncer q      run-shell "$CURRENT_DIR/scripts/cancel.sh"
 
@@ -32,3 +38,6 @@ tmux bind-key -T syncer Right run-shell "$CURRENT_DIR/scripts/move.sh R"
 
 # Select / Unselect pane
 tmux bind-key -T syncer Space run-shell "$CURRENT_DIR/scripts/toggle_cursor.sh"
+
+# Start Sync
+tmux bind-key -T syncer Enter run-shell "$CURRENT_DIR/scripts/commit.sh"
