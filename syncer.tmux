@@ -41,3 +41,4 @@ tmux bind-key -T syncer Space run-shell "$CURRENT_DIR/scripts/toggle_cursor.sh"
 
 # Start Sync
 tmux bind-key -T syncer Enter run-shell "$CURRENT_DIR/scripts/commit.sh"
+tmux bind-key -T syncer s run-shell "$CURRENT_DIR/scripts/commit.sh"

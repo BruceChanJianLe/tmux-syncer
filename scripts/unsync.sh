@@ -13,3 +13,5 @@ tmux set-option -w synchronize-panes off
 for id in $(tmux list-panes -F '#{pane_id}'); do
   tmux select-pane -t "$id" -e
 done
+
+tmux display-message "syncer: unsync"
