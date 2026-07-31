@@ -50,3 +50,6 @@ tmux bind-key -T syncer s run-shell "$CURRENT_DIR/scripts/commit.sh"
 tmux bind-key -T syncer c run-shell "$CURRENT_DIR/scripts/group_panes.sh"
 # Ungroup
 tmux bind-key "$ungroup_key" run-shell "$CURRENT_DIR/scripts/ungroup_panes.sh"
+
+# Shallow other keys
+tmux bind-key -T syncer Any run-shell "$CURRENT_DIR/scripts/rearm.sh"
