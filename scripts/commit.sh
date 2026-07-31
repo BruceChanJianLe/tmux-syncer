@@ -7,6 +7,9 @@ source "$CURRENT_DIR/helpers.sh"
 source "$CURRENT_DIR/variables.sh"
 
 sel=$(get_win_option "$syncer_selected_option" "")
+# Fallback to previous if none is selected
+[ -z "$sel" ] && sel=$(get_win_option "$syncer_last_option" "")
+
 # shellcheck disable=SC2086
 set -- $sel
 count=$#
@@ -17,11 +20,18 @@ if [ "$count" -lt 2 ]; then
   exit 0
 fi
 
+# Save current layout as last
+set_win_option "$syncer_last_option" "$sel"
+
 clear_panes
 
 # loop through all unselected panes and disable them
 for id in $(tmux list-panes -F '#{pane_id}'); do
-  list_contains "$sel" "$id" || tmux select-pane -t "$id" -d
+  if list_contains "$sel" "$id"; then
+    tmux select-pane -t "$id" -e
+  else
+    tmux select-pane -t "$id" -d
+  fi
 done
 
 # sync all active panes

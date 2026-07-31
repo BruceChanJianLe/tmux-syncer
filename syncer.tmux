@@ -53,3 +53,6 @@ tmux bind-key "$ungroup_key" run-shell "$CURRENT_DIR/scripts/ungroup_panes.sh"
 
 # Shallow other keys
 tmux bind-key -T syncer Any run-shell "$CURRENT_DIR/scripts/rearm.sh"
+
+# Toggle between last selection (if exist)
+tmux bind-key -T syncer - run-shell "$CURRENT_DIR/scripts/recall.sh"

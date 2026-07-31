@@ -22,3 +22,6 @@ export syncer_active_option="@syncer-active"
 export syncer_origin_option="@syncer-origin"
 # Window layout to restore
 export syncer_original_layout_option="@syncer-original-layout"
+
+# Last selection
+export syncer_last_option="@syncer-last"
