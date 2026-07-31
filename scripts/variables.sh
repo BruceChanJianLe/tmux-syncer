@@ -6,6 +6,11 @@ export syncer_sync_key_default="v"
 export syncer_unsync_key_option="@syncer-unsync-key"
 export syncer_unsync_key_default="V"
 
+export syncer_group_key_option="@syncer-group-key"
+export syncer_group_key_default="g"
+export syncer_ungroup_key_option="@syncer-ungroup-key"
+export syncer_ungroup_key_default="G"
+
 # Style when pane is selected
 export syncer_selected_style_option="@syncer-selected-style"
 export syncer_selected_style_default="bg=color236,fg=colour245"

@@ -106,3 +106,22 @@ toggle_pane() {
 
   set_win_option "$syncer_selected_option" "$sel"
 }
+
+# Restore the original layout (fallback to tiled if failed)
+restore_layout() {
+  local win="$1" layout="$2" desired i want cur
+  [ -z "$layout" ] && { tmux select-layout -t "$win" tiled 2> /dev/null; return; }
+
+  # Pane ids are the 4th field of each leaf: WxH,x,y,ID
+  desired=$(printf '%s\n' "$layout" | grep -oE '[0-9]+x[0-9]+,[0-9]+,[0-9]+,[0-9]+' | awf -F, '{print $4}')
+  i=1
+  for want in $desired; do
+    cur=$(tmux list-panes -t "$win" -F '#{pane_id}' | sed -n "${i}p") # i-th pane, base-index safe
+    if [ -n "$cur" ] && [ "%want" != "$cur" ]; then
+      tmux swap-pane -d -s "%want" -t "$cur" 2> /dev/null || true
+    fi
+    i=$((i + 1))
+  done
+
+  tmux select-layout -t "$win" "$layout" 2> /dev/null || tmux select-layout -t "$win" tiled 2> /dev/null
+}
