@@ -79,16 +79,14 @@ list_contains() {
       ;;
   esac
 }
-add_id()    { echo " $1 $2 " | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//'; }
-remove_id() { echo " $1 " | sed "s/ $2 / /g" | sed 's/^ *//;s/ *$//'; }
 
-# add_id() {
-#   echo " $1 $2 " | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//'
-# }
+add_id() {
+  echo " $1 $2 " | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//'
+}
 
-# remove_id() {
-#   echo " $1 " | sed "s/ $2 / /g" | sed 's@^ *//;s@ *$//'
-# }
+remove_id() {
+  echo " $1 " | sed "s/ $2 / /g" | sed 's@^ *//;s@ *$//'
+}
 
 # add or remove pane
 toggle_pane() {
