@@ -1,12 +1,41 @@
 name: CI
 
+# Not on every push. Runs:
+#   - on demand:  Actions tab -> "CI" -> "Run workflow" (or `gh workflow run ci.yml`)
+#   - once a day: only if something under scripts/ (or syncer.tmux / tests/)
+#                 changed in the last 24h.
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 22 * * *'   # 22:00 UTC daily (GitHub cron is UTC and may be delayed)
 
 jobs:
+  gate:
+    name: Decide whether to run
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0            # full history so `git log` can look back
+      - id: check
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run requested."
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif git log --since="24 hours ago" --pretty=%H -- scripts/ syncer.tmux tests/ | grep -q .; then
+            echo "Relevant changes in the last 24h -> running."
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No changes under scripts/ in the last 24h -> skipping."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
   lint:
     name: Lint (syntax + shellcheck)
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,6 +57,8 @@ jobs:
 
   smoke:
     name: Smoke test (headless tmux)
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
