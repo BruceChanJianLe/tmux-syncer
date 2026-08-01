@@ -111,12 +111,12 @@ restore_layout() {
   [ -z "$layout" ] && { tmux select-layout -t "$win" tiled 2> /dev/null; return; }
 
   # Pane ids are the 4th field of each leaf: WxH,x,y,ID
-  desired=$(printf '%s\n' "$layout" | grep -oE '[0-9]+x[0-9]+,[0-9]+,[0-9]+,[0-9]+' | awf -F, '{print $4}')
+  desired=$(printf '%s\n' "$layout" | grep -oE '[0-9]+x[0-9]+,[0-9]+,[0-9]+,[0-9]+' | awk -F, '{print $4}')
   i=1
   for want in $desired; do
     cur=$(tmux list-panes -t "$win" -F '#{pane_id}' | sed -n "${i}p") # i-th pane, base-index safe
-    if [ -n "$cur" ] && [ "%want" != "$cur" ]; then
-      tmux swap-pane -d -s "%want" -t "$cur" 2> /dev/null || true
+    if [ -n "$cur" ] && [ "%$want" != "$cur" ]; then
+      tmux swap-pane -d -s "%$want" -t "$cur" 2> /dev/null || true
     fi
     i=$((i + 1))
   done

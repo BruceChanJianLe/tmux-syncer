@@ -22,7 +22,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y shellcheck
-          shellcheck --severity=warning --exclude=SC1091 \
+          # SC1091: sourced files not followed; SC2154: vars come from sourced variables.sh
+          shellcheck --severity=warning --exclude=SC1091,SC2154 \
             syncer.tmux scripts/*.sh tests/*.sh
 
   smoke:

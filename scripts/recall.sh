@@ -10,7 +10,7 @@ curr=$(get_win_option "$syncer_selected_option" "")
 prev=$(get_win_option "$syncer_last_option" "")
 
 # Nothing to toggle if no history
-if [ -z "$prev" && -z "$curr"]; then
+if [ -z "$prev" ] && [ -z "$curr" ]; then
   rearm_syncer
   exit 0
 fi

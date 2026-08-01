@@ -10,7 +10,7 @@ set_win_option "$syncer_selected_option" ""
 
 PANE_BASE=$(tmux show-options -g pane-base-index | awk '{print $2}')
 
-tmux display-message "syncer: "$PANE_BASE"-9 / hjkl + Space to pick, Enter to sync, q to quit"
+tmux display-message "syncer: ${PANE_BASE}-9 / hjkl + Space to pick, Enter to sync, q to quit"
 
 # Enter pane selection mode
 rearm_syncer

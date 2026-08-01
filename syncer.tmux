@@ -8,8 +8,6 @@ source "$CURRENT_DIR/scripts/variables.sh"
 
 sync_key=$(get_tmux_option   "$syncer_sync_key_option"   "$syncer_sync_key_default")
 unsync_key=$(get_tmux_option "$syncer_unsync_key_option" "$syncer_unsync_key_default")
-# Not used at the moment
-group_key=$(get_tmux_option   "$syncer_group_key_option"   "$syncer_group_key_default")
 ungroup_key=$(get_tmux_option "$syncer_ungroup_key_option" "$syncer_ungroup_key_default")
 
 # Enter selection mode
