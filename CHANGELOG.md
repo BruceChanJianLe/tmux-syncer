@@ -17,6 +17,7 @@ keep running but ignore input (`select-pane -d`).
 - Recall the last selection by pressing `Enter` with nothing selected.
 - Configurable via `@syncer-sync-key`, `@syncer-unsync-key`, and
 `@syncer-selected-style`.
+- Add test script and GitHub Actions to ensure plugin sanity.
 
 ### Experimental (not released)
 - Grouping selected panes into a dedicated window (`group_panes.sh` /
