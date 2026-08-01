@@ -1,6 +1,6 @@
 > Synchronize keyboard input to a subset of panes in a tmux window.
 
-![demo](https://github.com/user-attachments/assets/43589d8b-935e-4631-870e-0541c46aefa8)
+[!demo](https://github.com/user-attachments/assets/43589d8b-935e-4631-870e-0541c46aefa8)
 
 > Pick the panes you want from a quick visual overlay, press `s` or `Enter`, and
 > whatever you type in one of them is sent to all of them. The panes you didn't
