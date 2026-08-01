@@ -50,7 +50,7 @@ run-shell ~/.config/tmux/plugins/tmux-syncer/syncer.tmux
 > Pro Tip: Entering selection mode and pressing `s` or `Enter` without picking
 > anything re-syncs your **last** selection.
 
-## Configuration
+## Custom Configuration
 
 Add any of these to `~/.tmux.conf` or `$XDG_CONFIG_HOME/tmux/tmux.conf`
 before the plugin is loaded:
