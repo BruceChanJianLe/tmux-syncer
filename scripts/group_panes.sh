@@ -42,7 +42,7 @@ done
 # empty if all selected
 set_win_option "$syncer_active_option" "$hold"
 
-tmux select-layout tiled
+# tmux select-layout tiled
 
 # undim selected style
 revert_selection
