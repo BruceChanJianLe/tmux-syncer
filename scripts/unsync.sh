@@ -14,4 +14,7 @@ for id in $(tmux list-panes -F '#{pane_id}'); do
   tmux select-pane -t "$id" -e
 done
 
+# clear any dim styles
+revert_selection
+
 tmux display-message "syncer: unsync"
